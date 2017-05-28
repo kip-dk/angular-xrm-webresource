@@ -165,6 +165,70 @@ And looking within Dynamic 365 solution explore:
 ![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/xrm-deploy-solution-result.png)
 
 
+#### Behind the scene
+
+The deploy tool is farily simple. It has a Setting.cs that maps 1-1 to the xrm.deploy.json, and the class has a simple static member that assume the file to be configuration file to be placed in current folder.
+
+Then we have a ResourceTypeEnum.cs that simple defines the 10 different types of ressource dynamic 365 supportes. On top of that a simple Extensions.cs file that can map from a file name extension, ex .html to the
+corresponding resource type, ex. ResourceTypeEnum.Html.
+
+The import manager have all the logic. The method is: Initially lookup the solution, and from there the publisher to get the CustomizationPrefix to be used on upload. 
+
+The for each file in the dist folder, lookup and update, or create if new a WebResource with correct name and type. The name and structure in dynamic 365 will exactly correspond to the structure in the dist folder.
+
+If the dist folder contains any files that cannot be mapped to one of the 10 types, the process will throw an exception. 
+
+##### some details - creating a web resource, publish it, and finally attach it to a solution:
+```c#
+webResource = new Entity
+{
+    Id = Guid.NewGuid(),
+    LogicalName = "webresource"
+};
+webResource["name"] = resourceName;
+webResource["content"] = Convert.ToBase64String(File.ReadAllBytes(file));
+webResource["displayname"] = name + ": " + resourceName;
+webResource["description"] = "Imported as part of the " + name + " application";
+webResource["webresourcetype"] = new Microsoft.Xrm.Sdk.OptionSetValue((int)filename.ToResourceType());
+orgService.Create(webResource);
+
+var publishRequest = new PublishXmlRequest
+{
+    ParameterXml = string.Format("<importexportxml><webresources><webresource>{0}</webresource></webresources></importexportxml>", webResource.Id)
+};
+
+// attach new webResource to solution
+var request = new Microsoft.Crm.Sdk.Messages.AddSolutionComponentRequest
+{
+    ComponentType = 61, // Web Resource,
+    ComponentId = webResource.Id,
+    SolutionUniqueName = solution
+};
+
+orgService.Execute(request);
+```
+
+##### and if the webresource already exists, simply update it
+
+```c#
+if (new FileInfo(file).LastWriteTimeUtc > ((DateTime)webResource["modifiedon"]).ToUniversalTime())
+{
+    Console.WriteLine("Updating " + resourceName);
+
+    webResource["content"] = Convert.ToBase64String(File.ReadAllBytes(file));
+    orgService.Update(webResource);
+
+    var publishRequest = new PublishXmlRequest
+    {
+        ParameterXml = string.Format("<importexportxml><webresources><webresource>{0}</webresource></webresources></importexportxml>", webResource.Id)
+    };
+
+    orgService.Execute(publishRequest);
+}
+
+```
+
+
 
 
 

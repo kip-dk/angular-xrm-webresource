@@ -45,6 +45,6 @@ Open a command prompt, and navigate the the root of the Deploy project folder. (
 ````C:\Projects\MyAngularSolution\Deploy````
 
 ```
-> **ng new demo**
+ng new demo**
 ```
 

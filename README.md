@@ -92,3 +92,17 @@ As a result of this process, ng build will generate a "dist" folder onder the ".
 
 ![Add angular app to solution](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/angular-first-build.png)
 
+As you can see from the folder structure, ng build has create a nice simple structure with very few files. One could think that we can simply upload these to Dynamic 365 one by one. 7 files should not be a big deal. 
+
+But that is not a workable solution. On each build of the application, all files need to be updated, because new modules and more might have been added and more. So we wish to automate that part of the process.
+
+The Dynamic 365 SDK ([Dynamic 365 SDK](https://www.microsoft.com/en-us/download/details.aspx?id=50032)) does contain a solution with a tool (SDK\Tools\WebResourceUtility) to upload a folder including all sub folders, so you could just go with that solution. [XrmToolBox](http://www.xrmtoolbox.com/) also have a Web Resource manager that allow you to do the same. Personally
+i prefere a process where I can automate the process, and the amout of code needed is fairly small, so that is the approach i will demonstrate here.
+
+
+
+
+
+
+
+

@@ -16,7 +16,35 @@ Secondly, the deployment model of web resources is also very strict. Files need 
 ## The following topics will be covered
 
 1. Creating a solution
-1. Add project to git
 1. Create an angular application with angular cli
 1. Add the angular application to your solution
 1. Deploy the application to your Dynamic 365
+
+## Creating a solution
+
+This project is a demo reference only, so the best starting point is proberbly not just to download this solution. But in very few steps, you can have your own solution up running.
+
+1. Open visualstudio
+1. Create new project, using the template [Other Project Types > Visual Solutions > Blank Solution ], in this guide I assume you are naming i ''''MyAngularSolution''''
+1. Add a Command line project to the solution, name it Deploy, because that is what is eventually gonna do.
+1. If you wish to use Git or other source control repository, now is the time to add the solution to source control. Use whatever process you normally use
+
+
+## Create an angular application with angular cli
+
+If you didn’t already install the angular cli tool, you need to do so now. Follow the guide from this link.
+
+Before you run to fast, just do the installation of angular cli for now. Get back here when you are ready to create a new angular app.
+
+![Angular CLI](https://cli.angular.io/)
+
+Now you have the angular cli tool as part of your development environment. 
+
+Open a command prompt, and navigate the the root of the Deploy project folder. ( de ..whatever.folder is your root ) 
+
+````C:\Projects\MyAngularSolution\Deploy''''
+
+```cmd
+ng new demo
+```
+

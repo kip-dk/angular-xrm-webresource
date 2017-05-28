@@ -144,8 +144,8 @@ Basically the settings is an array. This mean that you can deploy the same code 
 
 *Solution* is the unique name of the Dynamic 365 solution to target. The solution will be used to lookup the publisher, and from there get the web resource name prefix.
 
-*name* is the unique name to be used as web resource name. This allow you to deploy several angular application in the same Dynamic 365 solution. Each element deployed will be named [publicher-prefix]_/[name],
-in my case kipon_/demo/what-ever
+*name* is the unique name to be used as web resource name. This allow you to deploy several angular application in the same Dynamic 365 solution. Each element deployed will be named [publicher-prefix]\_/[name],
+in my case kipon\_/demo/what-ever
 
 *dist* is where to find the distribution files. The tool will simply upload all files and create a similar structure within dynamic 365.
 

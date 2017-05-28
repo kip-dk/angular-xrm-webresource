@@ -27,7 +27,7 @@ This project is a demo reference only, so the best starting point is proberbly n
 1. Open visualstudio
 1. Create new project, using the template [Other Project Types > Visual Solutions > Blank Solution ], in this guide I assume you are naming i ''''MyAngularSolution''''
 1. Add a Command line project to the solution, name it Deploy, because that is what is eventually gonna do.
-1. If you wish to use Git or other source control repository, now is the time to add the solution to source control. Use whatever process you normally use
+1. If you wish to use Git or other source control repository, now it is the time to add your solution to source control. Use whatever process you normally use. If you don't add you solution to source control now, you might come in trouble later, because the angular cli will add git source control to your angular project, if the folder is not already under source control.
 
 
 ## Create an angular application with angular cli

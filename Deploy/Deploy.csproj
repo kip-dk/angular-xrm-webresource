@@ -78,6 +78,7 @@
     <TypeScriptCompile Include="demo\src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="demo\src\app\app.component.ts" />
     <TypeScriptCompile Include="demo\src\app\app.module.ts" />
+    <TypeScriptCompile Include="demo\src\app\shared\xrm.service.ts" />
     <TypeScriptCompile Include="demo\src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="demo\src\environments\environment.ts" />
     <TypeScriptCompile Include="demo\src\main.ts" />

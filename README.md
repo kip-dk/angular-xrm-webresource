@@ -256,3 +256,29 @@ is pretty much giving you all the direction you need. Remember to call nmp --ins
 After that - voila - now it works in IE as well:
 
 ![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/angular-running-in-dynamic-ie.png)
+
+## Add a simple typescript xrm service that will allow data access through dynamic 365 WebApi
+
+So far, we have focused on the process of bootstrapping and deploying an angular 4 application and make it run as a web resource within Dynamic 365. But creating such application, also indicates that we wish to access
+data from the dynamic solution, otherwise what is the point of deploying it there.
+
+Therefore, I will now extend the angular application with a simple service than can use the Dynamic 365 WebApi to access data. I will not explore the full api, you can find details here:
+
+[Dynamic 365 WebApi](https://msdn.microsoft.com/en-us/library/mt771226.aspx)
+
+First of all, i added a shared folder to the app dir to hold my xrm web api service. There i added ```xrm.service.ts```. Beside importing angular http, this file also defines some interfaces
+
+```typescript
+interface XrmContext {
+    getClientUrl(): string;
+}
+
+interface SearchResult {
+    value: Entity[]
+}
+
+export interface Entity {
+
+}
+```
+

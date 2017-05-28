@@ -36,7 +36,7 @@ If you didn’t already install the angular cli tool, you need to do so now. Follo
 
 Before you run to fast, just do the installation of angular cli for now. Get back here when you are ready to create a new angular app.
 
-![Angular CLI](https://cli.angular.io/)
+[Angular CLI](https://cli.angular.io/)
 
 Now you have the angular cli tool as part of your development environment. 
 
@@ -44,7 +44,7 @@ Open a command prompt, and navigate the the root of the Deploy project folder. (
 
 ````C:\Projects\MyAngularSolution\Deploy''''
 
-```cmd
-ng new demo
+```
+> **ng new demo**
 ```
 

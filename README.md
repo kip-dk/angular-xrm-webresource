@@ -4,7 +4,8 @@
 
 # Building Microsoft Dynamic 365 WebResources with Visual Studio and angular 4
 
-This project demonstrates an easy track to develop Microsoft Dynamic 365 WebResource components with angular 4. 
+This project demonstrates an easy track to develop Microsoft Dynamic 365 WebResource components with angular 4. The setup has been created on a on-premesis development solution, and you might meet several obstacles if you try to develop against an online solution. The final solution can
+however be deploy online or on-premesis, using the normal Dynamic 365 solution deployment method.
 
 ## How to use, and where will it end up leaving you.
 
@@ -109,8 +110,54 @@ First of all, to create a command line tool with access to Dynamic 365, you need
 
 ![Dynamic 365 DLL to be included](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/xrm-sdk-assemblies.png)
 
+Beside these libraries, my implementation is also using
 
+```
+System.Runtime.Serialization
+System.ServiceModel
+```
 
+Mainly to parse the configuration for uploading the resources to the Dynamic 365 WebResource.
+
+#### How does it work
+
+Let me first explain how it works. In the angular folder (demo) i have place a simple json file named xrm.deploy.json. This file have all the connection details for uploading files to Dynamic 365
+
+Deploy\Demo\xrm.deploy.json
+
+```javascript
+[
+  {
+    "solution": "Angular4Demo",
+    "name": "demo",
+    "dist": "dist",
+    "url": "http://kipon-dev/kip/XRMServices/2011/Organization.svc",
+    "user": "auser",
+    "password": "#aVerySecretPassword!"
+  }
+]
+```
+
+As you can see, this file contains information about the target server. What solution to hit, witch name to give the application, where to find the IOrganizationService, and how to connect.
+
+Basically the settings is an array. This mean that you can deploy the same code to several 365 instances in one go.
+
+*Solution* is the unique name of the Dynamic 365 solution to target. The solution will be used to lookup the publisher, and from there get the web resource name prefix.
+
+*name* is the unique name to be used as web resource name. This allow you to deploy several angular application in the same Dynamic 365 solution. Each element deployed will be named [publicher-prefix]_/[name],
+in my case kipon_/demo/what-ever
+
+*dist* is where to find the distribution files. The tool will simply upload all files and create a similar structure within dynamic 365.
+
+url, user, password should be self Self-explaining.
+
+Since I have a running Dynamic 365 on my box on the "kipon-dev" domain, i am ready to go:
+
+After i compiled the solution in Visual Studio, I can navigate to the the Deploy/Demo folder and call the deployment tool
+
+```..\bin\debug\Deploy```
+
+![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/xrm-deploy-result.png)
 
 
 

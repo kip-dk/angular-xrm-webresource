@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentat
 	ProjectSection(SolutionItems) = preProject
 		Documentation\angular-first-build.png = Documentation\angular-first-build.png
 		Documentation\solution-add-angular-application.png = Documentation\solution-add-angular-application.png
+		Documentation\xrm-deploy-result.png = Documentation\xrm-deploy-result.png
 		Documentation\xrm-sdk-assemblies.png = Documentation\xrm-sdk-assemblies.png
 	EndProjectSection
 EndProject

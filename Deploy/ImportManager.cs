@@ -84,6 +84,7 @@ namespace Deploy
                     {
                         ParameterXml = string.Format("<importexportxml><webresources><webresource>{0}</webresource></webresources></importexportxml>", webResource.Id)
                     };
+                    orgService.Execute(publishRequest);
 
                     // attach new webResource to solution
                     var request = new Microsoft.Crm.Sdk.Messages.AddSolutionComponentRequest

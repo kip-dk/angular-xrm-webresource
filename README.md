@@ -65,7 +65,7 @@ Just for the sake of confirmation, you can test run your application. This is do
 
 and enter the following command
 
-```ng server --open```
+```ng serve --open```
 
 This will start the ng development server and open a new browser window. You should see something like "app works!" in your browser window.
 
@@ -73,13 +73,13 @@ This will start the ng development server and open a new browser window. You sho
 
 Next step is to deploy the application so it can run under Dynamics 365 as a WebResource. This is actually quite simple, because the only thing we need to do is to create a build, 
 and then upload the files in the build as WebResources in our Dynamics 365 solution. As our project grows in size this can become a time consuming task due to the amount of files that must be uploaded 
-and managed individually. Luckily the dynamics 365 SDK allow us to automate the process.  Below I will take you through the process – step by step, 
+and managed individually. Luckily the Dynamics 365 SDK allow us to automate the process.  Below I will take you through the process – step by step, 
 however the Deploy command line tool actually contains all the code for a fully automated process. So if you are a lucky rider, you might just dive directly into the code.
 
 ### But first we need to to establish a build process
 
 An angular project is basically just a bunch of html, css and typescript files. Alle these files need to be compiled into a workable web solution to be deployed under Dynamics 365. Dynamics 365 do understand
-html and css, but there is no direct support for typescript. The angular cli build process it the perfect tool to prepare files for upload. Below the manual process for creating a production ready build.
+html and css, but there is no direct support for typescript. The angular cli build process is the perfect tool to prepare files for upload. Below the manual process for creating a production ready build.
 
 Open a command line tool and navigate to your angular page folder
 
@@ -106,11 +106,11 @@ i prefere a process where I can manage, script and automate the process, and the
 
 ### Creating a simple deploy tool
 
-This sample is using the 2011 Organization Aervice to create and update WebResource, including solution references. The advantage of this is that the approach will also work with older versions of Dynamics CRM. 
+This sample is using the 2011 Organization Service to create and update WebResource, including solution references. The advantage of this is that the approach will also work with older versions of Dynamics CRM. 
 I did not investigate in details if the methods used here is actually supported by the Dynamics 365 WebApi, I actually thing is is, and if that is the case, you might wanna go for that interface 
 instead of using the 2011 OrganizationService.
 
-First of all, to create a command line tool with access to Dynamics 365, you need to include the SDK DLL
+First of all, to create a command line tool with access to Dynamics 365, you need to include the SDK DLL. (Only the two files with checkmark)
 
 
 ![Dynamic 365 DLL to be included](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/xrm-sdk-assemblies.png)
@@ -205,6 +205,7 @@ var publishRequest = new PublishXmlRequest
 {
     ParameterXml = string.Format("<importexportxml><webresources><webresource>{0}</webresource></webresources></importexportxml>", webResource.Id)
 };
+orgService.Execute(publishRequest);
 
 // attach new webResource to solution
 var request = new Microsoft.Crm.Sdk.Messages.AddSolutionComponentRequest
@@ -213,7 +214,6 @@ var request = new Microsoft.Crm.Sdk.Messages.AddSolutionComponentRequest
     ComponentId = webResource.Id,
     SolutionUniqueName = solution
 };
-
 orgService.Execute(request);
 ```
 
@@ -242,10 +242,10 @@ Take a look at the ImportManager.cs file for a full view. It is less than 200 li
 
 ## Make your angular cli application work - first in general, secondly with IE.
 
-Now we have alle the components to run the angular 4 application within Dynamics 365, you should target the [publisherprefix]\_/name/index.html file whereever you choose to embed your solution, in my case
+Now we have alle the components to run the angular 4 application within Dynamics 365, you should target the [publisherprefix]\_/name/index.html file whereever you choose to embed your angular page, in my case
 kipon_/demo/index.html
 
-I have used the XrmToolBox site map editor to publish it on its own page directly from the 365 main menu:
+I have used the XrmToolBox site map editor to publish it on its own page directly from the Dynamics 365 main menu:
 
 But initally the application does not work. You will get 404 on all resources. There is a simple reason for this. Angular cli is building a index.html page with a 
 
@@ -258,9 +258,9 @@ Remove that tag from the index.html file, build your application again with the 
 ![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/angular-running-in-dynamic.png)
 
 
-But your application still don't run under IE10, or IE11, and of cause this is a major. Most users using Dynamics 365 is using Internet Explore. But also here there is a simple reason and solution.
-The problem is the default demo/src/polyfills.ts file provided by angular cli does not add support for anything. You will need to edit that file according to your need. The comments in the file
-is pretty much giving you all the direction you need. Remember to call npm --install xxx whenever you include a ressource that requires install.
+But your application still don't run under IE10, or IE11, and of cause that is a major. Most users using Dynamics 365 is using Internet Explore. But also here there is a simple reason and solution.
+The problem is the default demo/src/polyfills.ts file provided by angular cli does not add support for anything in regrads to older browsers. You will need to edit that file according to your need. 
+The comments in the file is pretty much giving you all the direction you need. Remember to call npm --install xxx whenever you include a ressource that requires install.
 
 After that - voila - now it works in IE as well:
 
@@ -273,7 +273,7 @@ also indicates that we wish to access data from the Dynamics solution, otherwise
 
 Therefore, I will now extend the angular application with a simple service than can use the Dynamics 365 Web Api to access data. I will not explore the full api, you can find details here:
 
-[Dynamic 365 WebApi](https://msdn.microsoft.com/en-us/library/mt771226.aspx)
+[Dynamics 365 WebApi](https://msdn.microsoft.com/en-us/library/mt771226.aspx)
 
 First of all, i added a shared folder to the app dir to hold my xrm web api service. There i added ```shared\xrm.service.ts```. Beside importing angular http, this file also defines some interfaces
 
@@ -404,16 +404,16 @@ And voila, after build and deploy, my application is fetching and showing the co
 Be aware, this xrm.service is way to simple to server all you needs when building WebResources for Dynaimcs 365, but at least it is a typescript based starting point. 
 
 
-## Setup a development environment that allow development and test, directly in Visual Studio, without prior deployment to Dynamic 365
+## Setup a development environment that allow development and test, directly in Visual Studio, without prior deployment to Dynamics 365
 
 Now we have an end-to-end solution for building and deploying angular based application. But when it comes to doing development, this environment is way too cumbersome. The
 best solution would be if I could just use ```ng serve --open```. For normal angular application that is trivial. We are already there, however adding the Dynamics 365 Web Api service
-is adding complexity. We cannot get that service to run inside the ng serve, and using a hardcoded server const in the xrm.service will cause cross-domain scripting issues in the browser.
+is adding complexity. We cannot get that service to run inside the ng serve, and using a hardcoded client const url in the xrm.service will cause cross-domain scripting issues in the browser.
 
 For now I have not been able to come up with a perfect solution. Maeby you can help. For on-premisis developers, having there own Dynamics 365 server as part of the development environment, there is however
 a very simple solution. Be aware, this solution makes unsupported changes to the IIS settings, and should never be done on a production environment. That said, it actually works.
 
-You friend is proxy support in the ng server.
+You friend is proxy support in the ng serve.
 
 In the root folder of your angular app (Demo) add a file name proxy-config.json
 
@@ -428,10 +428,10 @@ In the root folder of your angular app (Demo) add a file name proxy-config.json
   }
 }
 ```
-This file is telling ng server to route all /api/* requests to the target. The auth setting is adding authentication to the proxy. It is "basic" and that is a pain. If somebody would add support 
+This file is telling ng serve to route all /api/* requests to the target. The auth setting is adding authentication to the proxy. It is "basic" and that is a pain. If somebody would add support 
 for Windows Authentication or Claim base authentication, this solution could work for any Dynamics 365 installation.
 
-Because our xrm.service is falling back to a default url of the angular application, web service call to Dynamics 365 is already parsed to the angular server:
+Because our xrm.service is falling back to a default url of the angular application, web service call to Dynamics 365 is already parsed to the ng server:
 
 ```typescript
 getClientUrl() {
@@ -445,19 +445,20 @@ getClientUrl() {
     return "http://localhost:4200";
 }
 ```
-http://localhost:4200 is the default url for angular cli ```ng server```
 
-Finally, and here come the drawback, Dynamics 365 web application is deployed under IIS, but the setup does not support basic authentication. I changed that setting to enabled, as shown below:
+When running the application with ng serve, there is no window.parent, so it will fall back to http://localhost:4200, witch is the default url for angular cli ```ng serve```
+
+Finally, and here come the drawback, Dynamics 365 web application is deployed under IIS, but the setup does not support basic authentication. I changed that setting on my server to enabled, as shown below:
 
 ![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/enable-basic-authentication.png)
 
-Now I can run my angular application with ng serve, having all the api requests routed through the ng serve, and parsed on to the Dynamics 365 server that will respond correctly
+Voila - Now I can run my angular application with ng serve, having all the api requests routed through the ng serve, and parsed on to the Dynamics 365 server that will respond correctly.
 
 Open a command prompt and navigate to your angular application folder (Demo)
 
-```ng server --proxy-config proxy-config.json --open```
+```ng serve --proxy-config proxy-config.json --open```
 
-voila, your application is running, and the CRM requested is served by the proxy:
+Your application is running, and the Dynamics 365 requested is served by the proxy:
 
 
 ![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/angular-serve-xrm-service.png)

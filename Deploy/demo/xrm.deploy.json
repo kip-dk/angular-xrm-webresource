@@ -1,0 +1,10 @@
+﻿[
+  {
+    "solution": "Angular4Demo",
+    "name": "demo",
+    "dist": "dist",
+    "url": "http://kipon-dev/kip/XRMServices/2011/Organization.svc",
+    "user": "auser",
+    "password": "#aVerySecretPassword!"
+  }
+]

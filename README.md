@@ -6,18 +6,18 @@
 
 This project demonstrates an easy track to develop Microsoft Dynamic 365 WebResource components with angular 4. 
 
-## How to use, and where will in end up leaving you.
+## How to use, and where will it end up leaving you.
 
 This guide is a step by step guide for building a very simple Visual Studio Solution that will allow you to create a full angular 4 application that can run inside a Dynamic 365 solution, online or on-premises.
 
 Even though a dynamic web resource is a web application, this project is using a simple command line tool as template. The reason for this is the basic nature of a dynamic 365 web resource. It only allow simple html, javascript, css and image files. Nothing else. So any Visual Studio Web template will add things that are not supported anyway, ex. ASP.NET controllers and more.
-Secondly, the deployment model of web resources is also very strict. Files need to be uploaded to CRM as WebResources, and eventually they will be deployed as single files (possible in sub folder structure). The angular cli build process is a perfect resource to optimize and prepare as few files as possible to be uploaded. This project will show you how, and even give you the needed code to automate the process. The automation process is included in the command line tool (Deploy).
+Secondly, the deployment model of web resources is also very strict. Files need to be uploaded to Dynamic 365 as WebResources, and eventually they will be deployed as single files (possible in sub folder structure). The angular cli build process is a perfect resource to optimize and prepare as few files as possible to be uploaded. This project will show you how, and even give you the needed code to automate the process. The automation process is included in the command line tool (Deploy).
 
 ## The following topics will be covered
 
 1. Creating a solution
 1. Create an angular application with angular cli
-1. Add the angular application to your solution
+1. Add the angular application to your visual studio solution
 1. Deploy the application to your Dynamic 365 
 1. Make your angular cli application work with IE.
 1. Add a simple typescript xrm service that will allow data access through dynamic 365 WebApi
@@ -37,7 +37,7 @@ This project is a demo reference only, so the best starting point is proberbly n
 
 If you didn’t already install the angular cli tool, you need to do so now. Follow the guide from this link.
 
-Before you run to fast, just do the installation of angular cli for now. Get back here when you are ready to create a new angular app.
+Before you run too fast, just do the installation of angular cli for now. Get back here when you are ready to create a new angular app.
 
 [Angular CLI](https://cli.angular.io/)
 
@@ -53,7 +53,7 @@ This will create a sub folder in you solution named demo (give you project whate
 
 Now go back to Visual Studio and add the needed folders to your Visual Studio project:
 
-(Click the Deplop project, use the [Show all files] button in the Solution Explore, hightlight according to below and select Include in Project])
+(Click the Deploy project, use the [Show all files] button in the Solution Explore, hightlight according to below and select Include in Project])
 
 
 ![Add angular app to solution](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/solution-add-angular-application.png)
@@ -62,7 +62,7 @@ Just for the sake of confirmation, you can test run your application. This is do
 
 ````C:\Projects\MyAngularSolution\Deploy\Demo````
 
-and enter
+and enter the following command
 
 ```ng server --open```
 
@@ -76,7 +76,7 @@ as WebResources in our Dynamic 365 solution. As our project grows in size this c
 ### But first we need to to establish a build process
 
 An angular project is basically just a bunch of html, css and typescript files. Alle these files need to be compiled into a workable web solution to be deployed under Dynamic 365. Dynamic 365 do understand
-html and css, but there is no direct support for typescripts. The angular cli build process it the perfect tool to prepare files for upload. Below the manual process for doing this.
+html and css, but there is no direct support for typescript. The angular cli build process it the perfect tool to prepare files for upload. Below the manual process for doing this.
 
 Open a command line tool and navigate to your angular page folder
 
@@ -85,9 +85,9 @@ Open a command line tool and navigate to your angular page folder
 ```ng build --prod --output-hashing none```
 
 The --prod flag is telling angular to build an optimized version suiteable for production, and the --output-hasning is to tell the build tool not to hash the file names generated. The later flag is really convinient for the
-dynamic 365 scenario, because dynamic 365 is alrady hashing all resources before served to the browser, and new names for all files would be a nightmare to manage when uploading the files to 365.
+dynamic 365 scenario, because dynamic 365 is alrady hashing all resources before served to the browser, and new names for all files would be a nightmare to manage when uploading the files to Dynamic 365.
 
-As a result of this process, ng build will generate a "dist" folder under the "...\Demo" folder, containing all the files needed to run the application:
+As a result of this process, ng build will generate a "dist" folder under the "...\demo" folder, containing all the files needed to run the application:
 
 
 ![Add angular app to solution](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/angular-first-build.png)
@@ -96,13 +96,23 @@ As you can see from the folder structure, ng build has create a nice simple stru
 
 But that is not a workable solution. On each build of the application, all files need to be updated, because new modules and more might have been added and more. Secondly, as we start build the application, adding assets and more, it will generate more files. So we wish to automate that part of the process.
 
-The Dynamic 365 SDK ([Dynamic 365 SDK](https://www.microsoft.com/en-us/download/details.aspx?id=50032)) does contain a solution with a tool (SDK\Tools\WebResourceUtility) to upload a folder including all sub folders as web resource files, so you could just go with that solution. [XrmToolBox](http://www.xrmtoolbox.com/) also have a Web Resource manager that allow you to do the same. Personally
-i prefere a process where I can manage and automate the process, and the amount of code needed is fairly small, so that is the approach i will demonstrate here.
+The ([Dynamic 365 SDK](https://www.microsoft.com/en-us/download/details.aspx?id=50032)) does contain a solution with a tool (SDK\Tools\WebResourceUtility) to upload a folder including all sub folders and files as web resource, so you could just go with that solution. [XrmToolBox](http://www.xrmtoolbox.com/) also have a nice Web Resource manager that allow you to do the same. Personally
+i prefere a process where I can manage, script and automate the process, and the amount of code needed is fairly small, so that is the approach i will demonstrate here.
 
-### Creating a simple build tool
+### Creating a simple deploy tool
 
 This sample is using the 2011 organization service to create and update web resource, including solution references. The advantage of this is that the approach will also work with older versions of Dynamic CRM. 
 I did not investigate in details if the methods used here is actually supported by the WebApi, but if that is the case, you might wanna go for that interface instead of using the 2011 OrganizationService.
+
+First of all, to create a command line tool with access to Dynamic 365, you need to include the SDK DLL
+
+
+![Dynamic 365 DLL to be included](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/xrm-sdk-assemblies.png)
+
+
+
+
+
 
 
 

@@ -406,7 +406,7 @@ a very simple solution. Be aware, this solution makes unsupported changes to the
 
 You friend is proxy support in the ng server.
 
-In the root folder of your angular app (Demo) add a file name proxy.config.json
+In the root folder of your angular app (Demo) add a file name proxy-config.json
 
 ```javascript
 {
@@ -419,8 +419,8 @@ In the root folder of your angular app (Demo) add a file name proxy.config.json
   }
 }
 ```
-This file is telling ng server to route all /api/ resource to the target, auth is the authentication. Is is "basic" and that is a pain. If somebody would add support for Windows Authentication or Claim base
-authentication, this solution could work for any dynamic installation.
+This file is telling ng server to route all /api/ resource to the target, auth is the authentication. It is "basic" and that is a pain. If somebody would add support for Windows Authentication or Claim base
+authentication, this solution could work for any dynamic 365 installation.
 
 Because our xrm.service is falling back to a default url of the angular application, web service call to dynamic 365 is already parsed to the angular server:
 
@@ -437,13 +437,13 @@ getClientUrl() {
 }
 ```
 
-Finally, and here come the drawback, Dynamic 365 web application is deployed under IIS, but it is not setup to support basic authentication.
+Finally, and here come the drawback, Dynamic 365 web application is deployed under IIS, but it is not setup to support basic authentication. I changed that setting to enabled, as shown below:
 
 
 ![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/enable-basic-authentication.png)
 
 
-Now you can run your angular application with ng serve, having all your request routed through angular, and parsed on the your CRM server that will respond correctly
+Now you can run your angular application with ng serve, having all your request routed through the ng server, and parsed on the requests to your CRM server that will respond correctly
 
 Open a command prompt and navigate to your angular application folder (Demo)
 

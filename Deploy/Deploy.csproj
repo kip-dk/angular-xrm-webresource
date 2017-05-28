@@ -75,6 +75,7 @@
     <Content Include="demo\src\styles.css" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="demo\proxy-config.json" />
     <TypeScriptCompile Include="demo\src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="demo\src\app\app.component.ts" />
     <TypeScriptCompile Include="demo\src\app\app.module.ts" />

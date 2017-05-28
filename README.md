@@ -392,5 +392,67 @@ And voila, after build and deploy, my application is fetching and showing the co
 
 ![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/angular-running-in-dynamic-with-count.png)
 
+Be aware, this xrm.service is way to simple to server all you needs when building WebResources for Dynaimc 365, but at least it is a typescript based starting point. 
 
 
+## Setup a development environment that allow development and test, directly in Visual Studio, without prior deployment to Dynamic 365
+
+Now we have an end-to-end solution for building and deploying angular based application. But when it comes to doing development, this environment is way too cumbersome. The
+best solution would be if I could just use ```ng serve --open```. For normal angular application that is trivial. We are already there, however adding the Dynamic 365 WebApi service
+is adding complexity. We cannot get that service to run inside the ng server, and using a hardcoded server const in the xrm.service will cause cross-domain scripting issues.
+
+For now I have not been able to come up with a perfect solution. Maeby you can help. For on-premisis developers, having there own dynamic 365 server as part of the development environment, there is however
+a very simple solution. Be aware, this solution makes unsupported changes to the IIS settings, and should never be done on a production environment. That said, it actually works.
+
+You friend is proxy support in the ng server.
+
+In the root folder of your angular app (Demo) add a file name proxy.config.json
+
+```javascript
+{
+  "/api/*": {
+    "target": "http://kipon-dev/kip",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "auth": "auser:#aVerySecretPassword!"
+  }
+}
+```
+This file is telling ng server to route all /api/ resource to the target, auth is the authentication. Is is "basic" and that is a pain. If somebody would add support for Windows Authentication or Claim base
+authentication, this solution could work for any dynamic installation.
+
+Because our xrm.service is falling back to a default url of the angular application, web service call to dynamic 365 is already parsed to the angular server:
+
+```typescript
+getClientUrl() {
+    if (window.parent != null && window.parent['Xrm'] != null) {
+        var x = window.parent["Xrm"]["Page"]["context"] as XrmContext;
+        if (x != null) {
+            return x.getClientUrl();
+        }
+    }
+    // fallback for development environment
+    return "http://localhost:4200";
+}
+```
+
+Finally, and here come the drawback, Dynamic 365 web application is deployed under IIS, but it is not setup to support basic authentication.
+
+
+![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/enable-basic-authentication.png)
+
+
+Now you can run your angular application with ng serve, having all your request routed through angular, and parsed on the your CRM server that will respond correctly
+
+Open a command prompt and navigate to your angular application folder (Demo)
+
+```ng server --proxy-config proxy-config.json --open```
+
+voila, your application is running, and the CRM requested is served by the proxy:
+
+
+![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/angular-serve-xrm-service.png)
+
+
+Happy angular 4 dynamics 365 coding.

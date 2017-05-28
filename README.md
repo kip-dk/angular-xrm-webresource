@@ -19,6 +19,8 @@ Secondly, the deployment model of web resources is also very strict. Files need 
 1. Create an angular application with angular cli
 1. Add the angular application to your solution
 1. Deploy the application to your Dynamic 365
+1. Add a simple xrm service that will allow data access through dynamic xrm WebApi
+1. Setup a development environment that allow development and test, directly in Visual Studio, without prior deployment to Dynamic 365
 
 ## Creating a solution
 
@@ -44,9 +46,7 @@ Open a command prompt, and navigate the the root of the Deploy project folder. (
 
 ````C:\Projects\MyAngularSolution\Deploy````
 
-```
-ng new demo
-```
+```ng new demo```
 
 This will create a sub folder in you solution named demo (give you project whatever name corresponding to your need. It will eventually be used as the root name in your Dynamic 365 WebResource)
 
@@ -57,6 +57,12 @@ Now go back to Visual Studio and add the needed folders to your Visual Studio pr
 
 ![Add angular app to solution](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/solution-add-angular-application.png)
 
+Just for the sake, you can test you that you application is ready to go by opending a command prompt, navigate to
 
+````C:\Projects\MyAngularSolution\Deploy\Demo````
 
+and enter
 
+```ng server --open```
+
+This will start the ng development server and open a new browser window. You should see something like "app works!" in your browser window.

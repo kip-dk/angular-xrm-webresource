@@ -47,9 +47,29 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="demo\src\assets\.gitkeep" />
+    <None Include="demo\src\tsconfig.app.json" />
+    <None Include="demo\src\tsconfig.spec.json" />
+    <None Include="demo\tsconfig.json" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="demo\src\app\app.component.css" />
+    <Content Include="demo\src\app\app.component.html" />
+    <Content Include="demo\src\favicon.ico" />
+    <Content Include="demo\src\index.html" />
+    <Content Include="demo\src\styles.css" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="demo\" />
+    <TypeScriptCompile Include="demo\src\app\app.component.spec.ts" />
+    <TypeScriptCompile Include="demo\src\app\app.component.ts" />
+    <TypeScriptCompile Include="demo\src\app\app.module.ts" />
+    <TypeScriptCompile Include="demo\src\environments\environment.prod.ts" />
+    <TypeScriptCompile Include="demo\src\environments\environment.ts" />
+    <TypeScriptCompile Include="demo\src\main.ts" />
+    <TypeScriptCompile Include="demo\src\polyfills.ts" />
+    <TypeScriptCompile Include="demo\src\test.ts" />
+    <TypeScriptCompile Include="demo\src\typings.d.ts" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

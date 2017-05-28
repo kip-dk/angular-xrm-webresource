@@ -342,7 +342,7 @@ export class XrmService {
 ```
 
 
-This class is defining som simple interface to map the fact that any WebResource deployed i Dynamic is Iframed, and the parent object holds a Xrm.Page.context from where the url for a WebApi call can be optained.
+This class is defining som simple interface to map the fact that any WebResource deployed in Dynamics 365 is iframed, and the parent object holds a Xrm.Page.context from where the url for a WebApi call can be optained.
 
 the getClientUrl() is getting the url from the parent, and the search(..) method is using this url to do a http get to the WebApi.
 
@@ -387,7 +387,10 @@ Finally to see the result, i added a bit to the html template app.component.html
 ```
 
 
-And voila, after build and deploy, my application is fetching a showing the count result of accounts in dynamic 365.
+And voila, after build and deploy, my application is fetching and showing the count result of accounts in dynamic 365.
+
+
+![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/angular-running-in-dynamic-with-count.png)
 
 
 

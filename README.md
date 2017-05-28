@@ -84,3 +84,11 @@ Open a command line tool and navigate to your angular page folder
 
 ```ng build --prod --output-hashing none```
 
+The --prod flag is telling angular to build an optimized version suiteable for production, and the --output-hasning is to tell the build tool not to hash the file names generated. The later flag is really convinient for the
+dynamic 365 scenario, because dynamic 365 is alrady hashing all resources before served to the browser, and new names for all files would be a nightmare to manage when uploading the files to 365.
+
+As a result of this process, ng build will generate a "dist" folder onder the "...\Demo" folder, containing all the files needed to run the application:
+
+
+![Add angular app to solution](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/angular-first-build.png)
+

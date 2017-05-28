@@ -1,3 +1,7 @@
+
+# work-in-progress: I will remove this comment when done (2017-05-28). Expect it to happen within a few days.
+
+
 # Building Microsoft Dynamic 365 WebResources with Visual Studio and angular 4
 
 This project demonstrates an easy track to develop Microsoft Dynamic 365 WebResource components with angular 4. 

@@ -233,12 +233,12 @@ Take a look at the ImportManager.cs file for a full view. It is less than 200 li
 
 ## Make your angular cli application work - first in general, secondly with IE.
 
-Now we have alle the components to run the angular 4 application within Dynamic 365, you should target the [publisherprefix]_/name/index.html file whereever you choose to embed your code, in my case
+Now we have alle the components to run the angular 4 application within Dynamic 365, you should target the [publisherprefix]\_/name/index.html file whereever you choose to embed your code, in my case
 kipon_/demo/index.html
 
 I have used the XrmToolBox site map editor to publish it on its own page directly from the 365 main menu:
 
-But initally the application does not work. I get 404 on all resources. There is a simple reason for this. Angular cli is building a index.html page with a 
+But initally the application does not work. You will get 404 on all resources. There is a simple reason for this. Angular cli is building a index.html page with a 
 
 ```html
 <base href="/">
@@ -249,3 +249,10 @@ Remove that tag from the index.html file, build your application again with the 
 ![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/angular-running-in-dynamic.png)
 
 
+But your application still don't run under IE10, or IE11, and of cause this is a major. Most users using Dynamic 365 is using Internet Explore. But also here there is a simple reason and solution.
+The problem is that the default demo/src/polyfills.ts file provided by angular cli does not add support for anything. You will need to edit that file according to your need. The comments in the file
+is pretty much giving you all the direction you need. Remember to call nmp --install xxx whenever you include a ressource that requires install.
+
+After that - voila - now it works in IE as well:
+
+![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/angular-running-in-dynamic-ie.png)

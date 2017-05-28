@@ -42,7 +42,7 @@ Now you have the angular cli tool as part of your development environment.
 
 Open a command prompt, and navigate the the root of the Deploy project folder. ( de ..whatever.folder is your root ) 
 
-````C:\Projects\MyAngularSolution\Deploy''''
+````C:\Projects\MyAngularSolution\Deploy````
 
 ```
 > **ng new demo**

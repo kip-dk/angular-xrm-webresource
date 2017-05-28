@@ -20,7 +20,7 @@ Secondly, the deployment model of web resources is also very strict. Files need 
 1. Create an angular application with angular cli
 1. Add the angular application to your visual studio solution
 1. Deploy the application to your Dynamic 365 
-1. Make your angular cli application work with IE.
+1. Make your angular cli application work - first in general, secondly with IE.
 1. Add a simple typescript xrm service that will allow data access through dynamic 365 WebApi
 1. Setup a development environment that allow development and test, directly in Visual Studio, without prior deployment to Dynamic 365
 
@@ -149,7 +149,7 @@ in my case kipon\_/demo/what-ever
 
 *dist* is where to find the distribution files. The tool will simply upload all files and create a similar structure within dynamic 365.
 
-url, user, password should be self Self-explaining.
+url, user, password should be Self-explaining.
 
 Since I have a running Dynamic 365 on my box on the "kipon-dev" domain, i am ready to go:
 
@@ -174,7 +174,7 @@ corresponding resource type, ex. ResourceTypeEnum.Html.
 
 The import manager have all the logic. The method is: Initially lookup the solution, and from there the publisher to get the CustomizationPrefix to be used on upload. 
 
-The for each file in the dist folder, lookup and update, or create if new a WebResource with correct name and type. The name and structure in dynamic 365 will exactly correspond to the structure in the dist folder.
+Then for each file in the dist folder, lookup and update, or create if new a WebResource with correct name and type. The name and structure in dynamic 365 will exactly correspond to the structure in the dist folder.
 
 If the dist folder contains any files that cannot be mapped to one of the 10 types, the process will throw an exception. 
 
@@ -228,9 +228,24 @@ if (new FileInfo(file).LastWriteTimeUtc > ((DateTime)webResource["modifiedon"]).
 
 ```
 
+Take a look at the ImportManager.cs file for a full view. It is less than 200 lines of code.
 
 
+## Make your angular cli application work - first in general, secondly with IE.
 
+Now we have alle the components to run the angular 4 application within Dynamic 365, you should target the [publisherprefix]_/name/index.html file whereever you choose to embed your code, in my case
+kipon_/demo/index.html
 
+I have used the XrmToolBox site map editor to publish it on its own page directly from the 365 main menu:
+
+But initally the application does not work. I get 404 on all resources. There is a simple reason for this. Angular cli is building a index.html page with a 
+
+```html
+<base href="/">
+```
+
+Remove that tag from the index.html file, build your application again with the ng build command and finally redeploy using the Deploy tool. Now your application is working within chrome.
+
+![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/angular-running-in-dynamic.png)
 
 

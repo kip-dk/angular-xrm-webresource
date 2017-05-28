@@ -13,6 +13,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{9E7398AE-2E27-46D1-8C07-BD9F08BE06A5}"
 	ProjectSection(SolutionItems) = preProject
 		Documentation\angular-first-build.png = Documentation\angular-first-build.png
+		Documentation\angular-running-in-dynamic.png = Documentation\angular-running-in-dynamic.png
 		Documentation\solution-add-angular-application.png = Documentation\solution-add-angular-application.png
 		Documentation\xrm-deploy-result.png = Documentation\xrm-deploy-result.png
 		Documentation\xrm-deploy-solution-result.png = Documentation\xrm-deploy-solution-result.png

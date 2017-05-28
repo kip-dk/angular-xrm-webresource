@@ -48,3 +48,15 @@ Open a command prompt, and navigate the the root of the Deploy project folder. (
 ng new demo
 ```
 
+This will create a sub folder in you solution named demo (give you project whatever name corresponding to your need. It will eventually be used as the root name in your Dynamic 365 WebResource)
+
+Now go back to Visual Studio and add the needed folders to your Visual Studio project:
+
+(Click the Deplop project, use the [Show all files] button in the Solution Explore, hightlight according to below and select Include in Project])
+
+
+![Add angular app to solution](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/solution-add-angular-application.png)
+
+
+
+

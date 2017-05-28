@@ -18,8 +18,9 @@ Secondly, the deployment model of web resources is also very strict. Files need 
 1. Creating a solution
 1. Create an angular application with angular cli
 1. Add the angular application to your solution
-1. Deploy the application to your Dynamic 365
-1. Add a simple xrm service that will allow data access through dynamic xrm WebApi
+1. Deploy the application to your Dynamic 365 
+1. Make your angular cli application work with IE.
+1. Add a simple typescript xrm service that will allow data access through dynamic 365 WebApi
 1. Setup a development environment that allow development and test, directly in Visual Studio, without prior deployment to Dynamic 365
 
 ## Creating a solution
@@ -57,7 +58,7 @@ Now go back to Visual Studio and add the needed folders to your Visual Studio pr
 
 ![Add angular app to solution](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/solution-add-angular-application.png)
 
-Just for the sake, you can test you that you application is ready to go by opending a command prompt, navigate to
+Just for the sake of confirmation, you can test run your application. This is done by opending a command prompt, navigate to
 
 ````C:\Projects\MyAngularSolution\Deploy\Demo````
 
@@ -66,3 +67,20 @@ and enter
 ```ng server --open```
 
 This will start the ng development server and open a new browser window. You should see something like "app works!" in your browser window.
+
+## Deploy the application to your Dynamic 365
+
+Next step is to deploy the application so it can run under Dynamic 365 as web resource. This is actually quite simple, because the only thing we need to do is to create a build, and then upload the files in the build 
+as WebResources in our Dynamic 365 solution. As our project grows in size this can become a time consuming task due to the amount of files that must be uploaded and managed individually. Luckily the dynamic 365 SDK allow us to automate the process.  Below I will take you through the process – step by step, however the Deploy command line tool actually contains all the code for a fully automated process. So if you are a lucky rider, you might just dive directly into the code.
+
+### But first we need to to establish a build process
+
+An angular project is basically just a bunch of html, css and typescript files. Alle these files need to be compiled into a workable web solution to be deployed under Dynamic 365. Dynamic 365 do understand
+html and css, but there is no direct support for typescripts. The angular cli build process it the perfect tool to prepare files for upload. Below the manual process for doing this.
+
+Open a command line tool and navigate to your angular page folder
+
+````C:\Projects\MyAngularSolution\Deploy\Demo````
+
+```ng build --prod --output-hashing none```
+

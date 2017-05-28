@@ -259,7 +259,7 @@ Remove that tag from the index.html file, build your application again with the 
 
 
 But your application still don't run under IE10, or IE11, and of cause that is a major. Most users using Dynamics 365 is using Internet Explore. But also here there is a simple reason and solution.
-The problem is the default demo/src/polyfills.ts file provided by angular cli does not add support for anything in regrads to older browsers. You will need to edit that file according to your need. 
+The problem is the default demo/src/polyfills.ts file provided by angular cli does not add support for anything in regards to older browsers. You will need to edit that file according to your need. 
 The comments in the file is pretty much giving you all the direction you need. Remember to call npm --install xxx whenever you include a ressource that requires install.
 
 After that - voila - now it works in IE as well:

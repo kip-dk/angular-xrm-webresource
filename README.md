@@ -160,6 +160,9 @@ After i compiled the solution in Visual Studio, I can navigate to the the Deploy
 ![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/xrm-deploy-result.png)
 
 
+And looking within Dynamic 365 solution explore:
+
+![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/xrm-deploy-solution-result.png)
 
 
 

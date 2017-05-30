@@ -1,4 +1,4 @@
-# Building Microsoft Dynamic 365 WebResources with Visual Studio and angular 4 - Version 1.0.0
+# Building Microsoft Dynamic 365 WebResources with Visual Studio and angular 4 - Version 1.0.1.0
 
 This project demonstrates an easy track to develop Microsoft Dynamics 365 WebResource components with angular 4. The setup has been created on a on-premesis development solution, 
 and you might meet several obstacles if you try to develop against an online solution. The final solution can

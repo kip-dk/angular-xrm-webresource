@@ -49,20 +49,27 @@ namespace Deploy
                 var resourceName =  prefix + "_/" + name + (!string.IsNullOrEmpty(subPath) ? "/" + subPath.Replace("\\", "/") : "") + "/" + filename;
 
                 var webResource = findWebresource(resourceName);
+
+                var data = Convert.ToBase64String(File.ReadAllBytes(file));
+
+                if (data.Length == 0)
+                {
+                    data = Convert.ToBase64String(filename.DefaultContentForEmplyFile());
+                }
+
                 if (webResource != null)
                 {
                     if (new FileInfo(file).LastWriteTimeUtc > ((DateTime)webResource["modifiedon"]).ToUniversalTime())
                     {
                         Console.WriteLine("Updating " + resourceName);
 
-                        webResource["content"] = Convert.ToBase64String(File.ReadAllBytes(file));
+                        webResource["content"] = data;
                         orgService.Update(webResource);
 
                         var publishRequest = new PublishXmlRequest
                         {
                             ParameterXml = string.Format("<importexportxml><webresources><webresource>{0}</webresource></webresources></importexportxml>", webResource.Id)
                         };
-
                         orgService.Execute(publishRequest);
                     }
                 }
@@ -74,7 +81,7 @@ namespace Deploy
                         LogicalName = "webresource"
                     };
                     webResource["name"] = resourceName;
-                    webResource["content"] = Convert.ToBase64String(File.ReadAllBytes(file));
+                    webResource["content"] = data;
                     webResource["displayname"] = name + ": " + resourceName;
                     webResource["description"] = "Imported as part of the " + name + " application";
                     webResource["webresourcetype"] = new Microsoft.Xrm.Sdk.OptionSetValue((int)filename.ToResourceType());

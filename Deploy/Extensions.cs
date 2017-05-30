@@ -31,5 +31,17 @@ namespace Deploy
 
             throw new Exception("Filename cannot be mape to resource type");
         }
+
+        public static byte[] DefaultContentForEmplyFile(this string filename)
+        {
+            var type = filename.ToResourceType();
+            switch(type)
+            {
+                case ResourceTypeEnum.Html: return System.Text.Encoding.ASCII.GetBytes("<!-- Empty html file -->");
+                case ResourceTypeEnum.Css: return System.Text.Encoding.ASCII.GetBytes("/* Empty css file */");
+                case ResourceTypeEnum.Jscript: return System.Text.Encoding.ASCII.GetBytes("/* Empty javascript file */");
+            }
+            return new byte[0];
+        }
     }
 }

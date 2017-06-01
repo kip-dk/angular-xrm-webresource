@@ -1,4 +1,4 @@
-# Building Microsoft Dynamics 365 WebResources with Visual Studio and angular 4 - Version 1.0.1.0
+# Building Microsoft Dynamics 365 WebResources with Visual Studio and angular 4 - Version 1.0.1.1
 
 This project demonstrates an easy track to develop Microsoft Dynamics 365 WebResource components with angular 4. The setup has been created on a on-premesis development solution, 
 and you might meet several obstacles if you try to develop against an online solution. The final solution can
@@ -8,11 +8,12 @@ however be deploy online or on-premesis, using the normal Dynamics 365 solution 
 
 This guide is a step by step guide for building a very simple Visual Studio Solution that will allow you to create a full angular 4 application that can run inside a Dynamic 365 solution, online or on-premises.
 
-Even though a Dynamics 365 WebResource is a web application, this project is using a simple command line tool as template. The reason for this is the basic nature of a Dynamics 365 WebResource. 
-It only allow simple html, javascript, css and image files. Nothing else. So any Visual Studio Web template will add things that are not supported anyway, ex. ASP.NET controllers and more.
-Secondly, the deployment model of WebResources is also very strict. Files need to be uploaded to Dynamics 365 as WebResources, and eventually they will be deployed as single files 
-(possible in sub folder structure). The angular cli build process is a perfect tool to optimize and prepare as few files as possible to be uploaded. 
-This project will show you how, and even gives you the needed code to automate the process. The automation process is included in the command line tool included in this solution file (Deploy).
+Even though a Dynamics 365 WebResource is a web application, this project is using a simple command line tool as template. This is to make it simple to have development, build and deploy within a single
+project template. 
+
+For real life project, use one of the Web Templates in Visual Studio, and let angular cli put your Dynamics 365 WebResource files in a subfolder within that project. 
+That will allow you to add external resources, ex. bootstrap CSS to the root folder of your web project, and that way get intelligence for these resources. To host the deployment tool in such project you can simply create two projects
+in the solution, one for the Web Resource and one for the Deployment tool.
 
 ## The following topics will be covered
 

@@ -1,5 +1,4 @@
-# 2017-05-30: 1.0.1.0 Handling empty files 
-# Building Microsoft Dynamics 365 WebResources with Visual Studio and angular - Version 1.0.1.1
+# Building Microsoft Dynamics 365 WebResources with Visual Studio and angular
 
 This project demonstrates an easy track to develop Microsoft Dynamics 365 WebResource components with angular. The setup has been created on a on-premesis development solution, 
 and you might meet several obstacles if you try to develop against an online solution. The final solution can

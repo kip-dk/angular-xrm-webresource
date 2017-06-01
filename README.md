@@ -1,12 +1,13 @@
-# Building Microsoft Dynamics 365 WebResources with Visual Studio and angular 4 - Version 1.0.1.1
+# 2017-05-30: 1.0.1.0 Handling empty files 
+# Building Microsoft Dynamics 365 WebResources with Visual Studio and angular - Version 1.0.1.1
 
-This project demonstrates an easy track to develop Microsoft Dynamics 365 WebResource components with angular 4. The setup has been created on a on-premesis development solution, 
+This project demonstrates an easy track to develop Microsoft Dynamics 365 WebResource components with angular. The setup has been created on a on-premesis development solution, 
 and you might meet several obstacles if you try to develop against an online solution. The final solution can
 however be deploy online or on-premesis, using the normal Dynamics 365 solution deployment method.
 
 ## How to use, and where will it end up - leaving you.
 
-This guide is a step by step guide for building a very simple Visual Studio Solution that will allow you to create a full angular 4 application that can run inside a Dynamic 365 solution, online or on-premises.
+This guide is a step by step guide for building a very simple Visual Studio Solution that will allow you to create a full angular application that can run inside a Dynamic 365 solution, online or on-premises.
 
 Even though a Dynamics 365 WebResource is a web application, this project is using a simple command line tool as template. This is to make it simple to have development, build and deploy within a single
 project template. 
@@ -243,7 +244,7 @@ Take a look at the ImportManager.cs file for a full view. It is less than 200 li
 
 ## Make your angular cli application work - first in general, secondly with IE.
 
-Now we have alle the components to run the angular 4 application within Dynamics 365, you should target the [publisherprefix]\_/name/index.html file whereever you choose to embed your angular page, in my case
+Now we have alle the components to run the angular application within Dynamics 365, you should target the [publisherprefix]\_/name/index.html file whereever you choose to embed your angular page, in my case
 kipon_/demo/index.html
 
 I have used the XrmToolBox site map editor to publish it on its own page directly from the Dynamics 365 main menu:
@@ -269,7 +270,7 @@ After that - voila - now it works in IE as well:
 
 ## Add a simple typescript xrm service that will allow data access through dynamic 365 WebApi
 
-So far, we have focused on the process of bootstrapping and deploying an angular 4 application and make it run as a web resource within Dynamics 365. But creating such application, 
+So far, we have focused on the process of bootstrapping and deploying an angular application and make it run as a web resource within Dynamics 365. But creating such application, 
 also indicates that we wish to access data from the Dynamics solution, otherwise what is the point of deploying it there.
 
 Therefore, I will now extend the angular application with a simple service than can use the Dynamics 365 Web Api to access data. I will not explore the full api, you can find details here:
@@ -465,4 +466,4 @@ Your application is running, and the Dynamics 365 requested is served by the pro
 ![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/angular-serve-xrm-service.png)
 
 
-Happy angular 4 Dynamics 365 coding.
+Happy angular - Dynamics 365 coding.

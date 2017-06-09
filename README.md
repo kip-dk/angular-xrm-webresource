@@ -51,7 +51,7 @@ Open a command prompt, and navigate the the root of the Deploy project folder: (
 
 ```ng new demo```
 
-This will create a sub folder in you solution named demo (give your project whatever name corresponding to your need. It will eventually be used as the root name in your Dynamic 365 WebResources)
+This will create a sub folder in you solution named demo (give your project whatever name corresponding to your need. It will eventually be used as the root name in your Dynamics 365 WebResources)
 
 Now, go back to Visual Studio and add the needed folders to your Visual Studio project:
 
@@ -108,13 +108,13 @@ i prefere a process where I can manage, script and automate the process, and the
 ### Creating a simple deploy tool
 
 This sample is using the 2011 Organization Service to create and update WebResource, including solution references. The advantage of this is that the approach will also work with older versions of Dynamics CRM. 
-I did not investigate in details if the methods used here is actually supported by the Dynamics 365 WebApi, I actually thing is is, and if that is the case, you might wanna go for that interface 
+I did not investigate in details if the methods used here is actually supported by the Dynamics 365 WebApi, I actually thing it is, and if that is the case, you might wanna go for that interface 
 instead of using the 2011 OrganizationService.
 
 First of all, to create a command line tool with access to Dynamics 365, you need to include the SDK DLL. (Only the two files with checkmark)
 
 
-![Dynamic 365 DLL to be included](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/xrm-sdk-assemblies.png)
+![Dynamics 365 DLL to be included](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/xrm-sdk-assemblies.png)
 
 Beside these libraries, my implementation is also using
 
@@ -267,7 +267,7 @@ After that - voila - now it works in IE as well:
 
 ![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/angular-running-in-dynamic-ie.png)
 
-## Add a simple typescript xrm service that will allow data access through dynamic 365 WebApi
+## Add a simple typescript xrm service that will allow data access through Dynamics 365 WebApi
 
 So far, we have focused on the process of bootstrapping and deploying an angular application and make it run as a web resource within Dynamics 365. But creating such application, 
 also indicates that we wish to access data from the Dynamics solution, otherwise what is the point of deploying it there.

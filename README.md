@@ -272,7 +272,13 @@ After that - voila - now it works in IE as well:
 So far, we have focused on the process of bootstrapping and deploying an angular application and make it run as a web resource within Dynamics 365. But creating such application, 
 also indicates that we wish to access data from the Dynamics solution, otherwise what is the point of deploying it there.
 
-Therefore, I will now extend the angular application with a simple service than can use the Dynamics 365 Web Api to access data. I will not explore the full api, you can find details here:
+This article will show how to create a webAPI service directly. If you wish to shortcut this part, you can take a look at my open source implementation for doing simple
+Dynamics 365 webAPI calles without to much hassel.
+
+[Take a look at kipon-xrmservice npm package](https://www.npmjs.com/package/kipon-xrmservice)
+
+
+so..., I will now extend the angular application with a simple service than can use the Dynamics 365 Web Api to access data. I will not explore the full api, you can find details here:
 
 [Dynamics 365 WebApi](https://msdn.microsoft.com/en-us/library/mt771226.aspx)
 

@@ -473,6 +473,8 @@ Your application is running, and the Dynamics 365 requested is served by the pro
 
 These are the words from Lucavice<br />
 
+Install the following extensions for Chrome:
+
 	* **Allow-Control-Allow-Origin: * ** -- this extension allows me to bypass CORS and send requests from localhost to the Dynamics instance
 	* Requestly -- this extensions allows to set custom headers for requests to defined domains. In this extension I manually set the "Cookie" header that I can retrieve with Chrome Developer Tools while browsing Dynamics 365 while authenticated.
 

@@ -484,7 +484,7 @@ This approach is not perfect, but the cookie will last for a few hours, allowing
 
 This article is explaning how to setup SPA applications that can run outside Dynamics 365:
 
-![Setup external SPA application, integrating with Dynamics 365](https://community.dynamics.com/crm/b/scaleablesolutionsblog/archive/2016/01/18/web-api-authentication-from-javascript)
+[Setup external SPA application, integrating with Dynamics 365](https://community.dynamics.com/crm/b/scaleablesolutionsblog/archive/2016/01/18/web-api-authentication-from-javascript)
 
 
 

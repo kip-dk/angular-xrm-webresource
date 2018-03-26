@@ -17,6 +17,7 @@ namespace Deploy
         Gif = 7,
         Xap = 8,
         Xsl = 9,
-        Ico = 10
+        Ico = 10,
+        Unknown = 9999
     }
 }

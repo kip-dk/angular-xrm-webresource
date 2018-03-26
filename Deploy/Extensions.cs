@@ -28,8 +28,7 @@ namespace Deploy
                 case "XSLT": return ResourceTypeEnum.Xsl;
                 case "ICO": return ResourceTypeEnum.Ico;
             }
-
-            throw new Exception("Filename cannot be mape to resource type");
+            return ResourceTypeEnum.Unknown;
         }
 
         public static byte[] DefaultContentForEmplyFile(this string filename)

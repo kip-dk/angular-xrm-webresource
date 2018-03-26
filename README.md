@@ -413,12 +413,13 @@ Be aware, this xrm.service is way to simple to server all you needs when buildin
 
 ## Setup a development environment that allow development and test, directly in Visual Studio, without prior deployment to Dynamics 365
 
+### For onpremis development
+
 Now we have an end-to-end solution for building and deploying angular based application. But when it comes to doing development, this environment is way too cumbersome. The
 best solution would be if I could just use ```ng serve --open```. For normal angular application that is trivial. We are already there, however adding the Dynamics 365 Web Api service
 is adding complexity. We cannot get that service to run inside the ng serve, and using a hardcoded client const url in the xrm.service will cause cross-domain scripting issues in the browser.
 
-For now I have not been able to come up with a perfect solution. Maeby you can help. For on-premisis developers, having there own Dynamics 365 server as part of the development environment, there is however
-a very simple solution. Be aware, this solution makes unsupported changes to the IIS settings, and should never be done on a production environment. That said, it actually works.
+If you are developing locally, and have an onpremise environemnt there is a work-around for this.
 
 You friend is proxy support in the ng serve.
 
@@ -455,9 +456,10 @@ getClientUrl() {
 
 When running the application with ng serve, there is no window.parent, so it will fall back to http://localhost:4200, witch is the default url for angular cli ```ng serve```
 
+
 Finally, and here come the drawback, Dynamics 365 web application is deployed under IIS, but the setup does not support basic authentication. I changed that setting on my server to enabled, as shown below:
 
-![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/enable-basic-authentication.png)
+![Enable basic authentication on IIS](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/enable-basic-authentication.png)
 
 Voila - Now I can run my angular application with ng serve, having all the api requests routed through the ng serve, and parsed on to the Dynamics 365 server that will respond correctly.
 
@@ -466,6 +468,22 @@ Open a command prompt and navigate to your angular application folder (Demo)
 ```ng serve --proxy-config proxy-config.json --open```
 
 Your application is running, and the Dynamics 365 requested is served by the proxy:
+
+### Thanks to Lucavice, I can also share an alternative approach, if you need to develop and test against an online environment.
+
+These are the words from Lucavice<br />
+
+	* **Allow-Control-Allow-Origin: * ** -- this extension allows me to bypass CORS and send requests from localhost to the Dynamics instance
+	* Requestly -- this extensions allows to set custom headers for requests to defined domains. In this extension I manually set the "Cookie" header that I can retrieve with Chrome Developer Tools while browsing Dynamics 365 while authenticated.
+
+This approach is not perfect, but the cookie will last for a few hours, allowing me to test and debug the application for a whole working day.
+
+### Finally your can setup adal.js
+
+This article is explaning how to setup SPA applications that can run outside Dynamics 365:
+
+![Setup external SPA application, integrating with Dynamics 365](https://community.dynamics.com/crm/b/scaleablesolutionsblog/archive/2016/01/18/web-api-authentication-from-javascript)
+
 
 
 ![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/angular-serve-xrm-service.png)

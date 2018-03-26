@@ -84,7 +84,14 @@ namespace Deploy
                     webResource["content"] = data;
                     webResource["displayname"] = name + ": " + resourceName;
                     webResource["description"] = "Imported as part of the " + name + " application";
-                    webResource["webresourcetype"] = new Microsoft.Xrm.Sdk.OptionSetValue((int)filename.ToResourceType());
+                    var type = filename.ToResourceType();
+
+                    if (type == ResourceTypeEnum.Unknown)
+                    {
+                        Console.WriteLine("Warning : unable to map file to Dynamics 365 web resource type " + filename + ". The file was ignored" );
+                        continue;
+                    }
+                    webResource["webresourcetype"] = new Microsoft.Xrm.Sdk.OptionSetValue((int)type);
                     orgService.Create(webResource);
 
                     var publishRequest = new PublishXmlRequest

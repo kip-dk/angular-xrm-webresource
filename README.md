@@ -477,7 +477,7 @@ Locavice explains:
 
 By starting Chrome with the shortcut '"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --user-data-dir="C://Chrome dev session" --disable-web-security' 
 
-![as explained here](https://stackoverflow.com/questions/3102819/disable-same-origin-policy-in-chrome) 
+[as explained here](https://stackoverflow.com/questions/3102819/disable-same-origin-policy-in-chrome) 
 
 same origin policy gets disabled and you obtain two results:
 

@@ -473,12 +473,17 @@ Your application is running, and the Dynamics 365 requested is served by the pro
 
 These are the words from Lucavice<br />
 
-Install the following extensions for Chrome:
+Locavice explains:
 
-	* **Allow-Control-Allow-Origin: * ** -- this extension allows me to bypass CORS and send requests from localhost to the Dynamics instance
-	* Requestly -- this extensions allows to set custom headers for requests to defined domains. In this extension I manually set the "Cookie" header that I can retrieve with Chrome Developer Tools while browsing Dynamics 365 while authenticated.
+By starting Chrome with the shortcut '"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --user-data-dir="C://Chrome dev session" --disable-web-security' 
 
-This approach is not perfect, but the cookie will last for a few hours, allowing me to test and debug the application for a whole working day.
+![as explained here](https://stackoverflow.com/questions/3102819/disable-same-origin-policy-in-chrome) 
+
+same origin policy gets disabled and you obtain two results:
+
+CORS are disabled, therefore requests from localhost to Dynamics online go through
+If you login in Dynamics within this "special" Chrome session, the authentication Cookie is also sent when requesting a Dynamics resource from localhost.
+With the approach above, I can run ng serve and get full access to the Dynamics online API endpoints without plugins or any manual step. It is currently working really well for me.
 
 ### Finally your can setup adal.js
 

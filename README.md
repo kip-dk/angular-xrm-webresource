@@ -185,12 +185,12 @@ forms, but with different starting points in the app. Angular routes allow you t
 you web resource, simply by letting this tool deploy several versions of the index.html file. The content of the index.html file will be manipulated for href="" and src="" to match how deep you make the path. That way
 these sources are loaded with correct relative urls, according to your routes. The lowest level of a route is you app name, added with a slash:
 
-"" this route will become a url likee  https://yourorg.crm.microsoft.com/webresources/demo_/<br />
+"" this route will become a url like  https://yourorg.crm.microsoft.com/webresources/demo_/<br />
 "some/other/route" will become a url https://youror.crm.microsoft.com/webresources/demo_/some/other/route<br />
 
 There is however one hassel with working with routes. You need to define the &lt;base&gt; for routes to work in angular.
 
-When you work in the "ng serve" devlopment environment, that is a none issue because you could simply keep the &gt;base&gt; tag the comes out of the box on an angular app, 
+When you work in the "ng serve" devlopment environment, that is a none issue because you could simply keep the &lt;base&gt; tag that comes out of the box on an angular app, 
 but deployed under Dynamics 365 webresources are hosted deep in the CRM solution path. This must be handled.
 
 I am doing the following to solve this problem.

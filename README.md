@@ -145,10 +145,10 @@ Deploy\Demo\xrm.deploy.json
     "url": "http://kipon-dev/kip/XRMServices/2011/Organization.svc",
     "user": "auser",
     "password": "#aVerySecretPassword!"
-	"routes": [
-		"",
-		some/other/route
-	]
+    "routes": [
+      "",
+      some/other/route
+    ]
   }
 ]
 ```
@@ -179,23 +179,23 @@ And looking within Dynamics 365 solution explore:
 ![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/xrm-deploy-solution-result.png)
 
 
-## NEW (2019-08-23): Using angular routes in applications deployed to Dynamics 365.
-In this contexts, routes is new. It adds the ability to deploy multi instance of the index.html, named according the route name. This is powerfull if you wish to deploy the samme angular app in several
+### NEW (2019-08-23): Using angular routes in applications deployed to Dynamics 365.
+In this context, routes is new. It adds the ability to deploy multiple instance of the index.html, named according the route name. This is powerfull if you wish to deploy the samme angular app in several
 forms, but with different starting points in the app. Angular routes allow you to define a start component for each url, and this way, you can point directly into different parts of you app, directly from
 you web resource, simply by letting this tool deploy several versions of the index.html file. The content of the index.html file will be manipulated for href="" and src="" to match how deep you make the path. That way
 these sources are loaded with correct relative urls, according to your routes. The lowest level of a route is you app name, added with a slash:
 
-"" this route will become a url likee  https://yourorg.crm.microsoft.com/webresources/demo_/
-"some/other/route" will become a url https://youror.crm.microsoft.com/webresources/demo_/some/other/route
+"" this route will become a url likee  https://yourorg.crm.microsoft.com/webresources/demo_/<br />
+"some/other/route" will become a url https://youror.crm.microsoft.com/webresources/demo_/some/other/route<br />
 
 There is however one hassel with working with routes. You need to define the &lt;base&gt; for routes to work in angular.
 
-When you work in the "ng serve" devlopment environment, that is a none issue because you could simply keep the &gt&base&lt; tag the comes out of the box on an angular app, 
+When you work in the "ng serve" devlopment environment, that is a none issue because you could simply keep the &gt;base&gt; tag the comes out of the box on an angular app, 
 but deployed under Dynamics 365 webresources are hosted deep in the CRM solution path. This must be handled.
 
 I am doing the following to solve this problem.
 
-In the index.html file, I add the following javascript to "calculate the base". The script will default to "/" = angular running from the cli tool, but if it findes webresources in the url, it will
+In the index.html file, I add the following javascript to "calculate the base". The script will default to "/". This is for angular running from the cli tool, but if it findes webresources in the url, it will
 calculate how the base should look when running inside Dynamics 365:
 
 ```javascript
@@ -555,12 +555,14 @@ CORS are disabled, therefore requests from localhost to Dynamics online go throu
 If you login in Dynamics within this "special" Chrome session, the authentication Cookie is also sent when requesting a Dynamics resource from localhost.
 With the approach above, I can run ng serve and get full access to the Dynamics online API endpoints without plugins or any manual step. It is currently working really well for me.
 
-### Finally your can setup adal.js
+### Finally your can setup adal.js or msal.js
 
 This article is explaning how to setup SPA applications that can run outside Dynamics 365:
 
+For adal.js:<br />
 [Setup external SPA application, integrating with Dynamics 365](https://community.dynamics.com/crm/b/scaleablesolutionsblog/archive/2016/01/18/web-api-authentication-from-javascript)
 
+For msal.js:<br />
 
 
 ![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/angular-serve-xrm-service.png)

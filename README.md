@@ -147,7 +147,7 @@ Deploy\Demo\xrm.deploy.json
     "password": "#aVerySecretPassword!"
     "routes": [
       "",
-      some/other/route
+      "some/other/route"
     ]
   }
 ]

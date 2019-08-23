@@ -25,6 +25,9 @@ namespace Deploy
         [DataMember(Name = "password")]
         public string Password { get; set; }
 
+        [DataMember(Name = "routes")]
+        public string[] Routes { get; set; }
+
         public static Setting[] GetSettings()
         {
             if (System.IO.File.Exists("xrm.deploy.json"))
@@ -43,5 +46,6 @@ namespace Deploy
                 throw new FileNotFoundException("Expected to find a file name [xrm.deploy.json] in current folder");
             }
         }
+
     }
 }

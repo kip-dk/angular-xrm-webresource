@@ -11,6 +11,12 @@ namespace Deploy
 {
     public class ImportManager
     {
+        private const string HREF = "href=\"";
+        private const string HREF_HTTP = "href=\"http";
+        private const string HREF_PROTECT = "$HREFPROTECT$";
+        private const string SRC = "src=\"";
+        private const string SRC_HTTP = "src=\"http";
+        private const string SRC_PROTECT = "$SRCPROTECT";
 
         IOrganizationService orgService;
 
@@ -28,7 +34,7 @@ namespace Deploy
             IOrganizationService service = (IOrganizationService)orgService;
         }
 
-        public void Import(string dist, string name, string subPath, string solution, string prefix = null)
+        public void Import(string dist, string name, string subPath, string solution, string[] routes, string prefix = null)
         {
             var path = dist;
 
@@ -47,69 +53,45 @@ namespace Deploy
             {
                 var filename = Path.GetFileName(file);
                 var resourceName =  prefix + "_/" + name + (!string.IsNullOrEmpty(subPath) ? "/" + subPath.Replace("\\", "/") : "") + "/" + filename;
+                this.UploadContent(name, solution, resourceName, file, null, true);
 
-                var webResource = findWebresource(resourceName);
-
-                var data = Convert.ToBase64String(File.ReadAllBytes(file));
-
-                if (data.Length == 0)
+                if (file.EndsWith("index.html") && routes != null && routes.Length > 0)
                 {
-                    data = Convert.ToBase64String(filename.DefaultContentForEmplyFile());
-                }
-
-                if (webResource != null)
-                {
-                    if (new FileInfo(file).LastWriteTimeUtc > ((DateTime)webResource["modifiedon"]).ToUniversalTime())
+                    foreach (var route in routes)
                     {
-                        Console.WriteLine("Updating " + resourceName);
+                        resourceName = prefix + "_/" + name + "/" + route;
+                        var html = File.ReadAllText(file);
+                        var count = route.Split('/').Length;
 
-                        webResource["content"] = data;
-                        orgService.Update(webResource);
-
-                        var publishRequest = new PublishXmlRequest
+                        if (count > 0)
                         {
-                            ParameterXml = string.Format("<importexportxml><webresources><webresource>{0}</webresource></webresources></importexportxml>", webResource.Id)
-                        };
-                        orgService.Execute(publishRequest);
+                            html = html.Replace(HREF_HTTP, HREF_PROTECT);
+                            var newhref = HREF + "./%7B" + System.DateTime.Now.Ticks.ToString() + "%7D/";
+                            for (var i=0;i<count;i++)
+                            {
+                                newhref += "../";
+                            }
+
+                            html = html.Replace(HREF, newhref);
+                            html = html.Replace(HREF_PROTECT, HREF_HTTP);
+
+                            html = html.Replace(SRC_HTTP, SRC_PROTECT);
+                            var newsrc = SRC + "./%7B" + System.DateTime.Now.Ticks.ToString() + "%7D/";
+
+                            for (var i=0;i<count;i++)
+                            {
+                                newsrc += "../";
+                            }
+
+                            html = html.Replace(SRC, newsrc);
+                            html = html.Replace(SRC_PROTECT, SRC_HTTP);
+                        }
+
+                        var bytes = System.Text.Encoding.UTF8.GetBytes(html);
+                        var data = Convert.ToBase64String(bytes);
+
+                        this.UploadContent(name, solution, resourceName, $"({route}){file}", data, false);
                     }
-                }
-                else
-                {
-                    webResource = new Entity
-                    {
-                        Id = Guid.NewGuid(),
-                        LogicalName = "webresource"
-                    };
-                    webResource["name"] = resourceName;
-                    webResource["content"] = data;
-                    webResource["displayname"] = name + ": " + resourceName;
-                    webResource["description"] = "Imported as part of the " + name + " application";
-                    var type = filename.ToResourceType();
-
-                    if (type == ResourceTypeEnum.Unknown)
-                    {
-                        Console.WriteLine("Warning : unable to map file to Dynamics 365 web resource type " + filename + ". The file was ignored" );
-                        continue;
-                    }
-                    webResource["webresourcetype"] = new Microsoft.Xrm.Sdk.OptionSetValue((int)type);
-                    orgService.Create(webResource);
-
-                    var publishRequest = new PublishXmlRequest
-                    {
-                        ParameterXml = string.Format("<importexportxml><webresources><webresource>{0}</webresource></webresources></importexportxml>", webResource.Id)
-                    };
-                    orgService.Execute(publishRequest);
-
-                    // attach new webResource to solution
-                    var request = new Microsoft.Crm.Sdk.Messages.AddSolutionComponentRequest
-                    {
-                        ComponentType = 61, // Web Resource,
-                        ComponentId = webResource.Id,
-                        SolutionUniqueName = solution
-                    };
-
-                    orgService.Execute(request);
-                    Console.WriteLine("Created " + resourceName);
                 }
             }
             #endregion
@@ -132,9 +114,83 @@ namespace Deploy
                 {
                     dirname = subPath + @"\" + dirname;
                 }
-                this.Import(dist, name, dirname, solution, prefix);
+                this.Import(dist, name, dirname, solution, null, prefix);
             }
             #endregion
+        }
+
+
+        private void UploadContent(string name, string solution, string resourceName, string file, string data, bool modifycheck)
+        {
+            var hasData = data != null;
+
+            var filename = Path.GetFileName(file);
+            var webResource = findWebresource(resourceName);
+
+            if (data == null)
+            {
+                data = Convert.ToBase64String(File.ReadAllBytes(file));
+            }
+
+            if (data.Length == 0)
+            {
+                data = Convert.ToBase64String(filename.DefaultContentForEmplyFile());
+            }
+
+            if (webResource != null)
+            {
+                if (!modifycheck || new FileInfo(file).LastWriteTimeUtc > ((DateTime)webResource["modifiedon"]).ToUniversalTime())
+                {
+                    Console.WriteLine("Updating " + resourceName);
+
+                    webResource["content"] = data;
+                    orgService.Update(webResource);
+
+                    var publishRequest = new PublishXmlRequest
+                    {
+                        ParameterXml = string.Format("<importexportxml><webresources><webresource>{0}</webresource></webresources></importexportxml>", webResource.Id)
+                    };
+                    orgService.Execute(publishRequest);
+                }
+            }
+            else
+            {
+                webResource = new Entity
+                {
+                    Id = Guid.NewGuid(),
+                    LogicalName = "webresource"
+                };
+                webResource["name"] = resourceName;
+                webResource["content"] = data;
+                webResource["displayname"] = name + ": " + resourceName;
+                webResource["description"] = "Imported as part of the " + name + " application";
+                var type = hasData ? ResourceTypeEnum.Html : filename.ToResourceType();
+
+                if (type == ResourceTypeEnum.Unknown)
+                {
+                    Console.WriteLine("Warning : unable to map file to Dynamics 365 web resource type " + filename + ". The file was ignored");
+                    return;
+                }
+                webResource["webresourcetype"] = new Microsoft.Xrm.Sdk.OptionSetValue((int)type);
+                orgService.Create(webResource);
+
+                var publishRequest = new PublishXmlRequest
+                {
+                    ParameterXml = string.Format("<importexportxml><webresources><webresource>{0}</webresource></webresources></importexportxml>", webResource.Id)
+                };
+                orgService.Execute(publishRequest);
+
+                // attach new webResource to solution
+                var request = new Microsoft.Crm.Sdk.Messages.AddSolutionComponentRequest
+                {
+                    ComponentType = 61, // Web Resource,
+                    ComponentId = webResource.Id,
+                    SolutionUniqueName = solution
+                };
+
+                orgService.Execute(request);
+                Console.WriteLine("Created " + resourceName);
+            }
         }
 
         private Entity findWebresource(string filename)

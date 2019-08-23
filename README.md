@@ -125,6 +125,11 @@ System.ServiceModel
 
 Mainly to parse the configuration file for uploading the resources to the Dynamics 365.
 
+In a modern app, you should use NuGet, to get the needed libraries. Go-to Tools > NuGet Package Manager > Manage NuGet Package for solution, and install
+
+"Microsoft.CrmSdk.CoreAssemblies". It will give same result with less hassel. 
+
+
 #### How does it work
 
 Let me first explain how it works. In the angular folder (demo) i have place a simple json file named xrm.deploy.json. This file have all the connection details for uploading files to Dynamics 365
@@ -140,10 +145,13 @@ Deploy\Demo\xrm.deploy.json
     "url": "http://kipon-dev/kip/XRMServices/2011/Organization.svc",
     "user": "auser",
     "password": "#aVerySecretPassword!"
+	"routes": [
+		"",
+		some/other/route
+	]
   }
 ]
 ```
-
 As you can see, this file contains information about the target server. What solution to hit, witch name to give the application, where to find the IOrganizationService, and how to connect.
 
 Basically the settings is an array. This allow you to deploy the same code to several Dynamics 365 instances in one go.
@@ -169,6 +177,66 @@ After i compiled the solution in Visual Studio, I can navigate to the the Deploy
 And looking within Dynamics 365 solution explore:
 
 ![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/xrm-deploy-solution-result.png)
+
+
+## NEW (2019-08-23): Using angular routes in applications deployed to Dynamics 365.
+In this contexts, routes is new. It adds the ability to deploy multi instance of the index.html, named according the route name. This is powerfull if you wish to deploy the samme angular app in several
+forms, but with different starting points in the app. Angular routes allow you to define a start component for each url, and this way, you can point directly into different parts of you app, directly from
+you web resource, simply by letting this tool deploy several versions of the index.html file. The content of the index.html file will be manipulated for href="" and src="" to match how deep you make the path. That way
+these sources are loaded with correct relative urls, according to your routes. The lowest level of a route is you app name, added with a slash:
+
+"" this route will become a url likee  https://yourorg.crm.microsoft.com/webresources/demo_/
+"some/other/route" will become a url https://youror.crm.microsoft.com/webresources/demo_/some/other/route
+
+There is however one hassel with working with routes. You need to define the &lt;base&gt; for routes to work in angular.
+
+When you work in the "ng serve" devlopment environment, that is a none issue because you could simply keep the &gt&base&lt; tag the comes out of the box on an angular app, 
+but deployed under Dynamics 365 webresources are hosted deep in the CRM solution path. This must be handled.
+
+I am doing the following to solve this problem.
+
+In the index.html file, I add the following javascript to "calculate the base". The script will default to "/" = angular running from the cli tool, but if it findes webresources in the url, it will
+calculate how the base should look when running inside Dynamics 365:
+
+```javascript
+    document["ANG_BASE_URL"] = "/";
+
+    var url = window.location.href;
+
+    if (url.toLowerCase().indexOf('webresources') >= 0) {
+      var spl = url.split('?')[0].split('/');
+      if (spl.length > 3) {
+        url = '/';
+        for (var i = 3; i < (spl.length); i++) {
+          if (spl[i] != null && spl[i] != '') {
+            url += spl[i] + '/'
+          }
+        }
+        document["ANG_BASE_URL"] = url;
+      }
+    }
+
+```
+
+Then you need to setup the base path in the angular app.module.ts
+```typescript
+import { APP_BASE_HREF } from '@angular/common';
+
+@NgModule({
+  declarations: [
+  ],
+  imports: [
+  ],
+  providers: [
+    { provide: APP_BASE_HREF, useValue: document["ANG_BASE_URL"] }
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+```
+
+Now you can safely add the angular route module to your app, and link directly into specific areas of the app from Dynamics 365 web resources.
 
 
 #### Behind the scene
@@ -255,6 +323,8 @@ But initally the application does not work. You will get 404 on all resources. T
 ```
 
 Remove that tag from the index.html file, build your application again with the ng build command and finally redeploy using the Deploy tool. Now your application is working within chrome.
+
+If you need to use routes the base is needed. Read the section above regarding angular routes. You still need to remove the base tag, but you define the base in another way.
 
 ![Output from Deploy.exe](https://raw.githubusercontent.com/kip-dk/angular-xrm-webresource/master/Documentation/angular-running-in-dynamic.png)
 
@@ -497,3 +567,6 @@ This article is explaning how to setup SPA applications that can run outside Dyn
 
 
 Happy angular - Dynamics 365 coding.
+
+# License
+ © 2019, Kipon ApS 2019. Released under MIT License.

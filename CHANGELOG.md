@@ -1,3 +1,5 @@
+## 2020-11-08 Moved to new DEV server
+
 ## 2019-08-23: 1.0.1.4 Support for routes
 Added description how to handle angular routes, and extended the deploy to to support auto deploy of index.html for each route defined in the deployment configuration file.
 

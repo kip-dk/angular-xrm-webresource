@@ -29,9 +29,12 @@ namespace Deploy
             var config = ServiceConfigurationFactory.CreateConfiguration<IOrganizationService>(
                 new Uri(url));
 
-
             orgService = new OrganizationServiceProxy(config, credentials);
-            IOrganizationService service = (IOrganizationService)orgService;
+        }
+
+        public ImportManager(string connectionStrig)
+        {
+            orgService = new XrmOrganization.OAuthOrganizationService(connectionStrig);
         }
 
         public void Import(string dist, string name, string subPath, string solution, string[] routes, string prefix = null)

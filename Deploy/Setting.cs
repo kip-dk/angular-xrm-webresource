@@ -14,14 +14,22 @@ namespace Deploy
     {
         [DataMember(Name = "solution")]
         public string Solution { get; set; }
+
         [DataMember(Name = "name")]
         public string Name { get; set; }
+
         [DataMember(Name = "dist")]
         public string Dist { get; set; }
+
+        [DataMember(Name = "connectionstring")]
+        public string Connectionstring { get; set; }
+
         [DataMember(Name = "url")]
         public string Url { get; set; }
+
         [DataMember(Name = "user")]
         public string User { get; set; }
+
         [DataMember(Name = "password")]
         public string Password { get; set; }
 

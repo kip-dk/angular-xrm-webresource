@@ -94,6 +94,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceTypeEnum.cs" />
     <Compile Include="Setting.cs" />
+    <Compile Include="XrmOrganization\OAuthOrganizationService.cs" />
+    <Compile Include="XrmOrganization\TokenHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

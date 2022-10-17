@@ -1,3 +1,5 @@
+## 2022-10-17 Added support for application base online connection string in deploy tool
+
 ## 2020-11-08 Moved to new DEV server
 
 ## 2019-08-23: 1.0.1.4 Support for routes
